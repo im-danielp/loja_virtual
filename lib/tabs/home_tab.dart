@@ -1,6 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:loja_virtual/constants.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 class HomeTab extends StatelessWidget {
@@ -13,27 +15,23 @@ class HomeTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Widget buildBodyBack() => Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [Color(0xFF519E8A), Color(0xFF476A6F)],
-          begin: Alignment.topLeft,
-          end: AlignmentGeometry.bottomRight,
-        ),
-      ),
-    );
-
     return Stack(
       children: [
-        buildBodyBack(),
         CustomScrollView(
           slivers: [
             SliverAppBar(
               floating: true,
               snap: true,
-              backgroundColor: Color(0xFF519E8A),
               elevation: 0.0,
-              title: Text('Novidade', style: TextStyle(color: Color(0xFFF4FAFF), fontSize: 20)),
+              backgroundColor: corPrimaria,
+              iconTheme: IconThemeData(color: Colors.white),
+              title: Text(
+                'Novidade',
+                style: TextStyle(
+                  color: Color(0xFFF4FAFF),
+                  fontSize: 20,
+                ),
+              ),
               centerTitle: true,
             ),
             FutureBuilder<QuerySnapshot>(
@@ -61,10 +59,20 @@ class HomeTab extends StatelessWidget {
                             (img) => StaggeredGridTile.count(
                               crossAxisCellCount: img.data()['x'],
                               mainAxisCellCount: img.data()['y'],
-                              child: FadeInImage.memoryNetwork(
-                                placeholder: kTransparentImage,
-                                image: img.data()['image'],
-                                fit: BoxFit.cover,
+                              child: Padding(
+                                padding: const EdgeInsets.all(4),
+                                child: Material(
+                                  elevation: 8,
+                                  borderRadius: BorderRadius.circular(8),
+                                  clipBehavior: Clip.antiAlias,
+                                  color: const Color.fromARGB(255, 248, 248, 248),
+                                  child: CachedNetworkImage(
+                                    imageUrl: img.data()['image'],
+                                    placeholder: (context, url) => Image.memory(kTransparentImage),
+                                    errorWidget: (context, url, error) => Icon(Icons.error),
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
                               ),
                             ),
                           )
