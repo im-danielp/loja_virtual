@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:loja_virtual/constants.dart';
 import 'package:loja_virtual/tiles/drawer_tile.dart';
 
 class CustomDrawer extends StatelessWidget {
-  const CustomDrawer({super.key});
+  final PageController pageController;
+
+  const CustomDrawer({super.key, required this.pageController});
 
   @override
   Widget build(BuildContext context) {
@@ -23,16 +24,13 @@ class CustomDrawer extends StatelessWidget {
                       top: 8,
                       left: 0,
                       child: Text.rich(
-                        style: TextStyle(
-                          fontSize: 32,
-                          fontWeight: FontWeight.bold,
-                        ),
+                        style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
                         TextSpan(
                           children: [
                             TextSpan(text: 'Vestiário\n'),
                             TextSpan(
                               text: 'Flutter',
-                              style: TextStyle(color: corSecundaria),
+                              style: TextStyle(color: Theme.of(context).secondaryHeaderColor),
                             ),
                           ],
                         ),
@@ -44,13 +42,7 @@ class CustomDrawer extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            'Olá!',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
+                          Text('Olá!', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                           InkWell(
                             child: Text(
                               'Entre ou cadastre-se',
@@ -72,10 +64,30 @@ class CustomDrawer extends StatelessWidget {
                 padding: const EdgeInsets.only(right: 32),
                 child: Divider(color: Theme.of(context).textTheme.bodyMedium!.color),
               ),
-              DrawerTile(icon: Icons.home, text: 'Início'),
-              DrawerTile(icon: Icons.list, text: 'Produtos'),
-              DrawerTile(icon: Icons.location_on, text: 'Lojas'),
-              DrawerTile(icon: Icons.playlist_add_check, text: 'Meus Pedidos'),
+              DrawerTile(
+                icon: Icons.home,
+                text: 'Início',
+                controler: pageController,
+                page: 0,
+              ),
+              DrawerTile(
+                icon: Icons.list,
+                text: 'Produtos',
+                controler: pageController,
+                page: 1,
+              ),
+              DrawerTile(
+                icon: Icons.location_on,
+                text: 'Lojas',
+                controler: pageController,
+                page: 2,
+              ),
+              DrawerTile(
+                icon: Icons.playlist_add_check,
+                text: 'Meus Pedidos',
+                controler: pageController,
+                page: 3,
+              ),
             ],
           ),
         ],

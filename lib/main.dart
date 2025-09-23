@@ -20,10 +20,15 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primaryColor: corPrimaria,
+        secondaryHeaderColor: corSecundaria,
         scaffoldBackgroundColor: Colors.white,
         drawerTheme: DrawerThemeData(backgroundColor: Colors.white),
         textTheme: TextTheme(
           bodyMedium: TextStyle(color: const Color.fromARGB(255, 53, 51, 51)),
+        ),
+        appBarTheme: AppBarTheme(
+          backgroundColor: corPrimaria,
+          foregroundColor: Colors.white,
         ),
       ),
       home: HomeScreen(),
