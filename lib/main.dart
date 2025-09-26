@@ -21,6 +21,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primaryColor: corPrimaria,
         secondaryHeaderColor: corSecundaria,
+        colorScheme: ColorScheme.fromSeed(seedColor: corPrimaria),
         scaffoldBackgroundColor: Colors.white,
         drawerTheme: DrawerThemeData(backgroundColor: Colors.white),
         textTheme: TextTheme(
@@ -30,6 +31,7 @@ class MyApp extends StatelessWidget {
           backgroundColor: corPrimaria,
           foregroundColor: Colors.white,
         ),
+        cardTheme: CardThemeData(color: Colors.white),
       ),
       home: HomeScreen(),
     );
