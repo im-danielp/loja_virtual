@@ -32,6 +32,11 @@ class MyApp extends StatelessWidget {
           foregroundColor: Colors.white,
         ),
         cardTheme: CardThemeData(color: Colors.white),
+        filledButtonTheme: FilledButtonThemeData(
+          style: ButtonStyle(
+            backgroundColor: WidgetStatePropertyAll(corPrimaria),
+          ),
+        ),
       ),
       home: HomeScreen(),
     );

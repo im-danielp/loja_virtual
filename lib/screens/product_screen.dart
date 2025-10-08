@@ -13,9 +13,12 @@ class ProductScreen extends StatefulWidget {
 
 class _ProductScreenState extends State<ProductScreen> {
   late final product = widget.product;
+  String selectedSize = '';
 
   @override
   Widget build(BuildContext context) {
+    final primaryColor = Theme.of(context).primaryColor;
+
     return Scaffold(
       appBar: AppBar(
         title: Text(product.title ?? 'Produto'),
@@ -62,14 +65,27 @@ class _ProductScreenState extends State<ProductScreen> {
                         product.sizes
                             ?.map(
                               (size) => GestureDetector(
+                                onTap: () {
+                                  setState(() => selectedSize = size);
+                                },
                                 child: Container(
                                   width: 50,
                                   alignment: Alignment.center,
                                   decoration: BoxDecoration(
+                                    color: selectedSize == size
+                                        ? primaryColor.withValues(alpha: 0.12)
+                                        : null,
                                     borderRadius: BorderRadius.circular(4),
-                                    border: Border.all(color: Colors.grey),
+                                    border: Border.all(
+                                      color: selectedSize == size ? primaryColor : Colors.grey,
+                                    ),
                                   ),
-                                  child: Text(size),
+                                  child: Text(
+                                    size,
+                                    style: TextStyle(
+                                      color: selectedSize == size ? primaryColor : null,
+                                    ),
+                                  ),
                                 ),
                               ),
                             )
@@ -77,6 +93,27 @@ class _ProductScreenState extends State<ProductScreen> {
                         [],
                   ),
                 ),
+                SizedBox(height: 16),
+                SizedBox(
+                  height: 44,
+                  child: FilledButton.icon(
+                    icon: Icon(Icons.shopping_cart_outlined),
+                    label: Text(
+                      'Adicionar ao carrinho',
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: selectedSize.isNotEmpty ? Colors.white : null,
+                      ),
+                    ),
+                    onPressed: selectedSize.isNotEmpty ? () {} : null,
+                  ),
+                ),
+                SizedBox(height: 16),
+                Text(
+                  'Descrição',
+                  style: TextStyle(fontWeight: FontWeight.w500),
+                ),
+                Text(product.description ?? ''),
               ],
             ),
           ),
