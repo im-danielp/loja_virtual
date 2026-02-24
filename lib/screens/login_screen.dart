@@ -3,10 +3,17 @@ import 'package:loja_virtual/models/user_model.dart';
 import 'package:loja_virtual/screens/sign_up_screen.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-class LoginScreen extends StatelessWidget {
-  LoginScreen({super.key});
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
 
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
+  final emailController = TextEditingController();
+  final passController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -32,13 +39,13 @@ class LoginScreen extends StatelessWidget {
       body: ScopedModelDescendant<UserModel>(
         builder: (context, child, model) {
           if (model.isLoading) return CircularProgressIndicator();
-
           return Form(
             key: _formKey,
             child: ListView(
               padding: EdgeInsets.all(16),
               children: [
                 TextFormField(
+                  controller: emailController,
                   keyboardType: TextInputType.emailAddress,
                   decoration: InputDecoration(hint: Text('Email')),
                   validator: (text) {
@@ -48,6 +55,7 @@ class LoginScreen extends StatelessWidget {
                 ),
                 SizedBox(height: 16),
                 TextFormField(
+                  controller: passController,
                   obscureText: true,
                   decoration: InputDecoration(hint: Text('Senha')),
                   validator: (text) {
@@ -68,7 +76,12 @@ class LoginScreen extends StatelessWidget {
                   child: FilledButton(
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {}
-                      model.signIn();
+                      model.signIn(
+                        email: emailController.text,
+                        pass: passController.text,
+                        onSucess: onSucess,
+                        onFail: onFail,
+                      );
                     },
                     child: Text(
                       'Entrar',
@@ -80,6 +93,20 @@ class LoginScreen extends StatelessWidget {
             ),
           );
         },
+      ),
+    );
+  }
+
+  void onSucess() {
+    Navigator.pop(context);
+  }
+
+  void onFail() {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Falha ao entrar!'),
+        backgroundColor: Colors.redAccent,
+        duration: Duration(seconds: 2),
       ),
     );
   }
