@@ -36,4 +36,12 @@ class ProductData {
   String toString() {
     return 'ProductData{id: $id, category: $category, title: $title, description: $description, price: $price, images: $images, sizes: $sizes}';
   }
+
+  Map<String, dynamic> toResumedMap() {
+    return {
+      'title': title,
+      'description': description,
+      'price': price,
+    };
+  }
 }
