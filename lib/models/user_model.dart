@@ -11,6 +11,8 @@ class UserModel extends Model {
   UserCredential? firebaseUser;
   Map<String, dynamic> userData = {};
 
+  static UserModel of(BuildContext context) => ScopedModel.of<UserModel>(context);
+
   @override
   void addListener(VoidCallback listener) {
     super.addListener(listener);

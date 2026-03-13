@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ProductData {
   final String? id;
-  final String? category;
+  String? category;
   final String? title;
   final String? description;
   final double? price;
@@ -37,7 +37,7 @@ class ProductData {
     return 'ProductData{id: $id, category: $category, title: $title, description: $description, price: $price, images: $images, sizes: $sizes}';
   }
 
-  Map<String, dynamic> toResumedMap() {
+  Map<String, dynamic>? toResumedMap() {
     return {
       'title': title,
       'description': description,

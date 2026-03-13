@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:loja_virtual/screens/products_screen.dart';
+import 'package:loja_virtual/screens/category_screen.dart';
 
 class CategoryTile extends StatelessWidget {
   final DocumentSnapshot snapshot;
@@ -23,7 +23,7 @@ class CategoryTile extends StatelessWidget {
       onTap: () => Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => ProductsScreen(snapshot: snapshot),
+          builder: (context) => CategoryScreen(snapshot: snapshot),
         ),
       ),
     );

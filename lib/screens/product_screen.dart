@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:loja_virtual/datas/cart_product.dart';
 import 'package:loja_virtual/datas/product_data.dart';
+import 'package:loja_virtual/models/cart_model.dart';
+import 'package:loja_virtual/models/user_model.dart';
+import 'package:loja_virtual/screens/login_screen.dart';
 import 'package:loja_virtual/widgets/product_carousel.dart';
 
 class ProductScreen extends StatefulWidget {
@@ -18,6 +22,7 @@ class _ProductScreenState extends State<ProductScreen> {
   @override
   Widget build(BuildContext context) {
     final primaryColor = Theme.of(context).primaryColor;
+    final user = UserModel.of(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -99,13 +104,30 @@ class _ProductScreenState extends State<ProductScreen> {
                   child: FilledButton.icon(
                     icon: Icon(Icons.shopping_cart_outlined),
                     label: Text(
-                      'Adicionar ao carrinho',
+                      user.isLoggedIn() ? 'Adicionar ao carrinho' : 'Entre para comprar',
                       style: TextStyle(
                         fontSize: 18,
                         color: selectedSize.isNotEmpty ? Colors.white : null,
                       ),
                     ),
-                    onPressed: selectedSize.isNotEmpty ? () {} : null,
+                    onPressed: selectedSize.isNotEmpty
+                        ? () {
+                            if (user.isLoggedIn()) {
+                              final cartProduct = CartProduct();
+                              cartProduct.size = selectedSize;
+                              cartProduct.quantity = 1;
+                              cartProduct.pid = product.id;
+                              cartProduct.catagory = product.category;
+
+                              CartModel.of(context).addCartItem(cartProduct);
+                            } else {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => LoginScreen()),
+                              );
+                            }
+                          }
+                        : null,
                   ),
                 ),
                 SizedBox(height: 16),

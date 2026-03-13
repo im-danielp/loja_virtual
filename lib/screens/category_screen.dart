@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:loja_virtual/datas/product_data.dart';
 import 'package:loja_virtual/tiles/product_tile.dart';
 
-class ProductsScreen extends StatelessWidget {
+class CategoryScreen extends StatelessWidget {
   final DocumentSnapshot snapshot;
 
-  const ProductsScreen({super.key, required this.snapshot});
+  const CategoryScreen({super.key, required this.snapshot});
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +51,8 @@ class ProductsScreen extends StatelessWidget {
                     ),
                     itemCount: snapshot.data?.docs.length,
                     itemBuilder: (context, index) {
-                      final data = ProductData.fromDocument(snapshot.data?.docs[index]);
+                      ProductData data = ProductData.fromDocument(snapshot.data?.docs[index]);
+                      data.category = this.snapshot.id;
                       return ProductTile(type: 'grid', product: data);
                     },
                   ),
@@ -59,7 +60,8 @@ class ProductsScreen extends StatelessWidget {
                     padding: EdgeInsets.all(4),
                     itemCount: snapshot.data?.docs.length,
                     itemBuilder: (context, index) {
-                      final data = ProductData.fromDocument(snapshot.data?.docs[index]);
+                      ProductData data = ProductData.fromDocument(snapshot.data?.docs[index]);
+                      data.category = this.snapshot.id;
                       return ProductTile(type: 'list', product: data);
                     },
                   ),
