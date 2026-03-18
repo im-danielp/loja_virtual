@@ -6,7 +6,11 @@ class ProductTile extends StatelessWidget {
   final String type;
   final ProductData product;
 
-  const ProductTile({super.key, required this.type, required this.product});
+  const ProductTile({
+    super.key,
+    required this.type,
+    required this.product,
+  });
 
   @override
   Widget build(BuildContext context) {

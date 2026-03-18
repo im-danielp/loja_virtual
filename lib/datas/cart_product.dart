@@ -3,7 +3,7 @@ import 'package:loja_virtual/datas/product_data.dart';
 
 class CartProduct {
   String? cid;
-  String? catagory;
+  String? category;
   String? pid;
   int? quantity;
   String? size;
@@ -15,7 +15,7 @@ class CartProduct {
     final doc = document.data() as Map<String, dynamic>;
 
     cid = document.id;
-    catagory = doc['category'];
+    category = doc['category'];
     pid = doc['pid'];
     quantity = doc['quantity'];
     size = doc['size'];
@@ -23,7 +23,7 @@ class CartProduct {
 
   Map<String, dynamic> tomMapToFirebase() {
     return {
-      'catagory': catagory,
+      'category': category,
       'pid': pid,
       'quantity': quantity,
       'size': size,
@@ -33,7 +33,7 @@ class CartProduct {
   Map<String, dynamic> tomMap() {
     return {
       'cid': cid,
-      'catagory': catagory,
+      'category': category,
       'pid': pid,
       'quantity': quantity,
       'size': size,
