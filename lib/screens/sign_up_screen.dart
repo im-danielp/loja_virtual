@@ -88,8 +88,8 @@ class SignUpScreen extends StatelessWidget {
                         model.signUp(
                           userData: userData,
                           pass: passController.text.trim(),
-                          onOnSucess: onSucess,
-                          onFail: onFail,
+                          onOnSucess: () => onSucess(context),
+                          onFail: () => onFail(context),
                         );
                       }
                     },
@@ -107,21 +107,21 @@ class SignUpScreen extends StatelessWidget {
     );
   }
 
-  void onSucess() {
-    ScaffoldMessenger.of(scaffoldKey.currentContext!).showSnackBar(
+  void onSucess(BuildContext context) {
+    ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text('Usuário criado com sucesso!'),
-        backgroundColor: Theme.of(scaffoldKey.currentContext!).primaryColor,
+        backgroundColor: Theme.of(context).primaryColor,
         duration: Duration(seconds: 2),
       ),
     );
     Future.delayed(Duration(seconds: 2)).then((_) {
-      Navigator.pop(scaffoldKey.currentContext!);
+      if (context.mounted) Navigator.pop(context);
     });
   }
 
-  void onFail() {
-    ScaffoldMessenger.of(scaffoldKey.currentContext!).showSnackBar(
+  void onFail(BuildContext context) {
+    ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text('Falha ao criar usuário'),
         backgroundColor: Colors.red,

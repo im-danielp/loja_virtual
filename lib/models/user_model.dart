@@ -32,13 +32,13 @@ class UserModel extends Model {
         .createUserWithEmailAndPassword(email: userData['email'], password: pass)
         .then((user) async {
           firebaseUser = user;
-          onOnSucess();
           await saveUserData(userData);
+          onOnSucess();
           isLoading = false;
           notifyListeners();
         })
         .catchError((e) {
-          log(e);
+          log(e.toString());
           onFail();
           isLoading = false;
           notifyListeners();
@@ -62,6 +62,7 @@ class UserModel extends Model {
         })
         .catchError((e) {
           onFail();
+          firebaseUser = null;
           isLoading = false;
           notifyListeners();
         });
@@ -94,7 +95,7 @@ class UserModel extends Model {
           .collection('users')
           .doc(user.uid)
           .get();
-      userData = docUser.data() as Map<String, dynamic>;
+      userData = docUser.data() as Map<String, dynamic>? ?? {};
       notifyListeners();
     }
   }
