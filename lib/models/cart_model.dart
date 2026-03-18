@@ -19,7 +19,7 @@ class CartModel extends Model {
     products.add(cartProduct);
     FirebaseFirestore.instance
         .collection('users')
-        .doc(user.firebaseUser!.user!.uid)
+        .doc(user.firebaseUser!.uid)
         .collection('cart')
         .add(cartProduct.tomMapToFirebase())
         .then((doc) {
@@ -32,7 +32,7 @@ class CartModel extends Model {
     products.remove(cartProduct);
     FirebaseFirestore.instance
         .collection('users')
-        .doc(user.firebaseUser!.user!.uid)
+        .doc(user.firebaseUser!.uid)
         .collection('cart')
         .doc(cartProduct.cid)
         .delete();
@@ -43,7 +43,7 @@ class CartModel extends Model {
     cartProduct.quantity = (cartProduct.quantity ?? 0) - 1;
     FirebaseFirestore.instance
         .collection('users')
-        .doc(user.firebaseUser!.user!.uid)
+        .doc(user.firebaseUser!.uid)
         .collection('cart')
         .doc(cartProduct.cid)
         .update(cartProduct.tomMapToFirebase());
@@ -54,7 +54,7 @@ class CartModel extends Model {
     cartProduct.quantity = (cartProduct.quantity ?? 0) + 1;
     FirebaseFirestore.instance
         .collection('users')
-        .doc(user.firebaseUser!.user!.uid)
+        .doc(user.firebaseUser!.uid)
         .collection('cart')
         .doc(cartProduct.cid)
         .update(cartProduct.tomMapToFirebase());
@@ -64,7 +64,7 @@ class CartModel extends Model {
   void loadCartItems() async {
     final query = await FirebaseFirestore.instance
         .collection('users')
-        .doc(user.firebaseUser!.user!.uid)
+        .doc(user.firebaseUser!.uid)
         .collection('cart')
         .get();
     products = query.docs.map((doc) => CartProduct.fromDocument(doc)).toList();
