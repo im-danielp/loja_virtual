@@ -42,8 +42,9 @@ class MyApp extends StatelessWidget {
                 ),
                 cardTheme: CardThemeData(color: Colors.white),
                 filledButtonTheme: FilledButtonThemeData(
-                  style: ButtonStyle(
-                    backgroundColor: WidgetStatePropertyAll(corPrimaria),
+                  style: FilledButton.styleFrom(
+                    backgroundColor: corPrimaria,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadiusGeometry.circular(10)),
                   ),
                 ),
               ),

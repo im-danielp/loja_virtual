@@ -9,6 +9,9 @@ class CartModel extends Model {
   List<CartProduct> products = [];
   bool isLoading = false;
 
+  String? cupomCode;
+  int discountPercentage = 0;
+
   static CartModel of(BuildContext context) => ScopedModel.of<CartModel>(context);
 
   CartModel(this.user) {
@@ -69,5 +72,26 @@ class CartModel extends Model {
         .get();
     products = query.docs.map((doc) => CartProduct.fromDocument(doc)).toList();
     notifyListeners();
+  }
+
+  void setCupom(String? cupomCode, int discountPercentage) {
+    this.cupomCode = cupomCode;
+    this.discountPercentage = discountPercentage;
+  }
+
+  double getProductPrice() {
+    double price = 0;
+    for (final c in products) {
+      if (c.productData != null) price += (c.quantity ?? 0) * (c.productData!.price ?? 0.0);
+    }
+    return price;
+  }
+
+  double getDiscount() {
+    return getProductPrice() * discountPercentage / 100;
+  }
+
+  double getShipPrice() {
+    return 9.99;
   }
 }
