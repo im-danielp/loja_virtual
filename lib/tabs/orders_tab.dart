@@ -22,7 +22,7 @@ class OrdersTab extends StatelessWidget {
           if (!snapshot.hasData) {
             return Center(child: CircularProgressIndicator());
           } else {
-            final docs = snapshot.data!.docs;
+            final docs = snapshot.data!.docs.reversed.toList();
             return ListView.builder(
               itemCount: docs.length,
               itemBuilder: (context, index) {
