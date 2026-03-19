@@ -74,6 +74,10 @@ class CartModel extends Model {
     notifyListeners();
   }
 
+  void updatePrices() {
+    notifyListeners();
+  }
+
   void setCupom(String? cupomCode, int discountPercentage) {
     this.cupomCode = cupomCode;
     this.discountPercentage = discountPercentage;
@@ -93,5 +97,51 @@ class CartModel extends Model {
 
   double getShipPrice() {
     return 9.99;
+  }
+
+  Future<String?> finishOrder() async {
+    if (products.isEmpty) return null;
+    isLoading = true;
+    notifyListeners();
+
+    double productPrice = getProductPrice();
+    double shipPrice = getShipPrice();
+    double discount = getDiscount();
+
+    final refOrder = await FirebaseFirestore.instance.collection('orders').add({
+      'clientId': user.firebaseUser!.uid,
+      'products': products.map((cartProduct) => cartProduct.tomMap()).toList(),
+      'shipPrice': shipPrice,
+      'productsPrice': productPrice,
+      'discount': discount,
+      'totalPrice': productPrice - discount + shipPrice,
+      'status': 1,
+    });
+
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(user.firebaseUser!.uid)
+        .collection('orders')
+        .doc(refOrder.id)
+        .set({'orderId': refOrder.id});
+
+    final QuerySnapshot query = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(user.firebaseUser!.uid)
+        .collection('cart')
+        .get();
+
+    for (final doc in query.docs) {
+      doc.reference.delete();
+    }
+
+    products.clear();
+    discountPercentage = 0;
+    cupomCode = null;
+
+    isLoading = false;
+    notifyListeners();
+
+    return refOrder.id;
   }
 }

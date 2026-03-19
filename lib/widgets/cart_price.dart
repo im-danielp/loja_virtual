@@ -18,9 +18,10 @@ class CartPrice extends StatelessWidget {
         padding: EdgeInsets.all(16),
         child: ScopedModelDescendant<CartModel>(
           builder: (context, child, model) {
-            final String price = model.getProductPrice().toStringAsFixed(2).replaceAll('.', ',');
-            final String discount = model.getDiscount().toStringAsFixed(2).replaceAll('.', ',');
-            final String ship = model.getShipPrice().toStringAsFixed(2).replaceAll('.', ',');
+            final double price = model.getProductPrice();
+            final double discount = model.getDiscount();
+            final double ship = model.getShipPrice();
+            final double total = price + ship - discount;
 
             return Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -35,21 +36,25 @@ class CartPrice extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text('Subtotal '),
-                    Text('R\$ $price'),
+                    Text('R\$ ${formater(price)}'),
                   ],
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text('Desconto '),
-                    Text('R\$ $discount'),
+                    Visibility(
+                      visible: discount > 0,
+                      replacement: Text('R\$0,00'),
+                      child: Text('-R\$ ${formater(discount)}'),
+                    ),
                   ],
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text('Entrega '),
-                    Text('R\$ $ship'),
+                    Text('R\$ ${formater(ship)}'),
                   ],
                 ),
                 Divider(),
@@ -58,7 +63,7 @@ class CartPrice extends StatelessWidget {
                   children: [
                     Text('Total ', style: TextStyle(fontWeight: FontWeight.w500)),
                     Text(
-                      'R\$ 0,00',
+                      'R\$ ${formater(total)}',
                       style: TextStyle(
                         color: Theme.of(context).primaryColor,
                         fontWeight: FontWeight.w500,
@@ -76,5 +81,9 @@ class CartPrice extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String formater(double value) {
+    return value.toStringAsFixed(2).replaceAll('.', ',');
   }
 }
