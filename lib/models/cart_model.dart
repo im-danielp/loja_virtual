@@ -24,7 +24,7 @@ class CartModel extends Model {
         .collection('users')
         .doc(user.firebaseUser!.uid)
         .collection('cart')
-        .add(cartProduct.tomMapToFirebase())
+        .add(cartProduct.toMap())
         .then((doc) {
           cartProduct.cid = doc.id;
         });
@@ -49,7 +49,7 @@ class CartModel extends Model {
         .doc(user.firebaseUser!.uid)
         .collection('cart')
         .doc(cartProduct.cid)
-        .update(cartProduct.tomMapToFirebase());
+        .update(cartProduct.toMap());
     notifyListeners();
   }
 
@@ -60,7 +60,7 @@ class CartModel extends Model {
         .doc(user.firebaseUser!.uid)
         .collection('cart')
         .doc(cartProduct.cid)
-        .update(cartProduct.tomMapToFirebase());
+        .update(cartProduct.toMap());
     notifyListeners();
   }
 
@@ -110,7 +110,7 @@ class CartModel extends Model {
 
     final refOrder = await FirebaseFirestore.instance.collection('orders').add({
       'clientId': user.firebaseUser!.uid,
-      'products': products.map((cartProduct) => cartProduct.tomMap()).toList(),
+      'products': products.map((cartProduct) => cartProduct.toMap()).toList(),
       'shipPrice': shipPrice,
       'productsPrice': productPrice,
       'discount': discount,

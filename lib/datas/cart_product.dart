@@ -21,23 +21,13 @@ class CartProduct {
     size = doc['size'];
   }
 
-  Map<String, dynamic> tomMapToFirebase() {
+  Map<String, dynamic> toMap() {
     return {
       'category': category,
       'pid': pid,
       'quantity': quantity,
       'size': size,
-    };
-  }
-
-  Map<String, dynamic> tomMap() {
-    return {
-      'cid': cid,
-      'category': category,
-      'pid': pid,
-      'quantity': quantity,
-      'size': size,
-      'productData': productData?.toResumedMap(),
+      'product': productData?.toResumedMap(),
     };
   }
 }
